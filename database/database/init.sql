@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS Pets (
     user_id INT,
     pet_name VARCHAR(255) NOT NULL,
     species VARCHAR(255) NOT NULL,
-    breed VARCHAR(255),
     bloodtype VARCHAR(10),
     birth_date DATE,
     weight DECIMAL(5,2),
