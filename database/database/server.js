@@ -74,6 +74,8 @@ app.get("/users", async (req, res) => {
   }
 });
 
+// ------------------------------------------------ USER -------------------------------------------------
+
 // Register
 app.post("/register", async (req, res) => {
   try {
@@ -173,15 +175,85 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/doctors", async (req, res) => {
+app.get("/infoUser/:user_id", async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM `Doctor`");
+    const { user_id } = req.params;
+    const [rows] = await db.query(
+      "SELECT user_id, username, full_name, phone FROM `User` WHERE user_id = ?",
+      [user_id]
+    );
+
+    res.json(rows[0]);
+  } catch (err) {
+    console.error("Get User Info Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+
+app.put("/updateUser/:user_id", async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const { full_name, phone } = req.body;
+    await db.query(
+      "UPDATE `User` SET full_name = ?, phone = ? WHERE user_id = ?",
+      [full_name, phone, user_id]
+    );
+
+    res.json({
+      error: false,
+      message: "User updated successfully"
+    });
+  } catch (err) {
+    console.error("Update User Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+// ------------------------------------------------- PET PART -------------------------------------------------
+
+app.post("/insertPet", async (req, res) => {
+  try {
+    const { pet_name, pet_type, pet_breed, pet_age, user_id } = req.body;
+
+    await db.query(
+      "INSERT INTO `Pets` (pet_name, species, breed, birth_date, user_id) VALUES (?, ?, ?, ?, ?)",
+      [pet_name, pet_type, pet_breed, pet_age, user_id]
+    );
+
+    res.status(201).json({
+      error: false,
+      message: "Pet added successfully!"
+    });
+  } catch (err) {
+    console.error("Database Error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/getpets/:user_id", async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const [rows] = await db.query(
+      "SELECT pet_id, pet_name, species, breed, birth_date FROM `Pets` WHERE user_id = ?",
+      [user_id]
+    );
     res.json(rows);
   } catch (err) {
     console.error("Database Error:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
+
+
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`))
