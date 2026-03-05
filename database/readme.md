@@ -16,61 +16,112 @@ Status
     List Appointment - In progress
     Insert Medical Record - In progress
 
-Usage
+# API Usage
 
-Method GET /health
+## Health Check
 
-Method POST /register
+GET /health
+
+Check if the API server is running.
+
+---
+
+## Register User
+
+POST /register
+
+Request Body
 {
-    "username":"Donno",
-    "password":"123",
-    "confirm_password":"123"
+  "username": "Donno",
+  "password": "123",
+  "confirm_password": "123"
 }
 
-Method POST /login
+---
+
+## Login
+
+POST /login
+
+Request Body
 {
-    "username":"Donno",
-    "password":"123"
+  "username": "Donno",
+  "password": "123"
 }
 
-Method GET /infoUser/:user_id
+---
 
+## Get User Info
+
+GET /infoUser/:user_id
+
+Example
 /infoUser/1
 
-Method PUT /updateUser/:user_id
+---
 
+## Update User
+
+PUT /updateUser/:user_id
+
+Example
 /updateUser/1
+
+Request Body
 {
-    "full_name":"Thanakrit",
-    "phone":"012"
+  "full_name": "Thanakrit",
+  "phone": "012"
 }
 
-Method POST /insertPet/:user_id
+---
 
+## Insert Pet
+
+POST /insertPet/:user_id
+
+Example
 /insertPet/1
+
+Request Body
 {
-    "pet_name":"Pp",
-    "pet_type":"??",
-    "pet_age":"1000-08-21"
+  "pet_name": "Pp",
+  "pet_type": "??",
+  "pet_age": "1000-08-21"
 }
 
+---
 
-Method GET /getpets/:user_id 
-สำหรับหน้า Home
+## Get Pets (Home Page)
+
+GET /getpets/:user_id
+
+Example
 /getpets/1
 
-Method GET /infopet/:pet_id
+---
 
+## Get Pet Info
+
+GET /infopet/:pet_id
+
+Example
 /infopet/1
 
-Method PUT /updatePet/:pet_id
+---
 
+## Update Pet
+
+PUT /updatePet/:pet_id
+
+Example
 /updatePet/1
+
+Request Body
 {
-    "pet_name":"Pp",
-    "species":"??",
-    "bloodtype":"F",
-    "birth_date":"1000-08-21",
-    "weight":"99",
-    "allergy":"uhh"
+  "pet_name": "Pp",
+  "species": "??",
+  "bloodtype": "F",
+  "birth_date": "1000-08-21",
+  "weight": "99",
+  "allergy": "uhh"
 }
