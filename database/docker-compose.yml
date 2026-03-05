@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: log_database
+      MYSQL_DATABASE: appotintment
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASS}
     ports:
@@ -13,15 +13,13 @@ services:
     volumes:
       - log_mysql_data:/var/lib/mysql
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - snake-net
 
   log-storage:
     build: ./database
-    container_name: log-storage
+    container_name: appointment-storage
     restart: always
     ports:
-      - "3350:3350"
+      - "8000:8000"
     depends_on:
       - mysql
     env_file:
@@ -30,27 +28,19 @@ services:
       - DB_HOST=mysql
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASS}
-      - DB_NAME=log_database
+      - DB_NAME=appotintment
       - DB_PORT=3306
     command: npm start
-    networks:
-      - snake-net
 
   log_phpmyadmin:
     image: phpmyadmin:latest
-    container_name: log_phpmyadmin
+    container_name: appointment-phpmyadmin
     restart: always
     ports:
       - "8082:80"
     environment:
-      - PMA_HOST=log-mysql
+      - PMA_HOST=appointment-mysql
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-    networks:
-      - snake-net
-
-networks:
-  snake-net:
-    name: snake-net
 
 volumes:
-  log_mysql_data:
+  appointment_mysql_data:
