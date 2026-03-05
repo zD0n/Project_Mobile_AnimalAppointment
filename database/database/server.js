@@ -276,6 +276,137 @@ app.put("/updatePet/:pet_id", async (req, res) => {
   }
 });
 
+
+// ------------------------------------------------- MEDICAL RECORDS -------------------------------------------------
+
+app.post("/insertMedRecord/:pet_id", async (req, res) => {
+  try {
+    const { pet_id } = req.params;
+    const { visit_date, diagnosis, treatment } = req.body;
+    const [result] = await db.query(
+      "INSERT INTO `MedicalRecords` (pet_id, visit_date, diagnosis, treatment) VALUES (?, ?, ?, ?)",
+      [pet_id, visit_date, diagnosis, treatment]
+    );
+
+    res.status(201).json({
+      error: false,
+      message: "Medical record added successfully!"
+    });
+  } catch (err) {
+    console.error("Insert Medical Record Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+app.get("/GetMedicalRecord/:pet_id", async (req, res) => {
+  try {
+    const { pet_id } = req.params;
+    const [rows] = await db.query(
+      "SELECT record_id,diagnosis FROM `MedicalRecords` WHERE pet_id = ?",
+      [pet_id]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error("Get Medical Records Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+app.get("/GetMedicalRecordInfo/:record_id", async (req, res) => {
+  try {
+    const { record_id } = req.params;
+    const [rows] = await db.query(
+      "SELECT record_id, visit_date, diagnosis, treatment FROM `MedicalRecords` WHERE record_id = ?",
+      [record_id]
+    );
+    res.json(rows[0]);
+  } catch (err) {
+    console.error("Get Medical Record Info Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+// ------------------------------------------------- Appointments -------------------------------------------------
+
+app.post("/insertAppointment/:pet_id/:user_id/:doc_id", async (req, res) => {
+  try {
+    const { pet_id, user_id, doc_id } = req.params;
+    const { app_date,app_time, reason } = req.body;
+    const [result] = await db.query(
+      "INSERT INTO `Appointments` (pet_id, user_id, doc_id, app_date, app_time, reason) VALUES (?, ?, ?, ?, ?, ?)",
+      [pet_id, user_id, doc_id, app_date, app_time, reason]
+    );
+
+    res.status(201).json({
+      error: false,
+      message: "Appointment added successfully!"
+    });
+  } catch (err) {
+    console.error("Insert Appointment Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+app.get("/GetAppointmentslist/:user_id", async (req, res) => {
+  // กราบ Chat งามๆ
+  try {
+    const { user_id } = req.params;
+
+    const [rows] = await db.query(
+      `SELECT 
+        a.pet_id,
+        p.pet_name,
+        a.doc_id,
+        d.doc_name,
+        a.app_date,
+        a.app_time
+      FROM Appointments a
+      JOIN Pets p ON a.pet_id = p.pet_id
+      JOIN Doctors d ON a.doc_id = d.doc_id
+      WHERE a.user_id = ?`,
+      [user_id]
+    );
+
+    res.json(rows);
+
+  } catch (err) {
+    console.error("Get Appointments Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+// ------------------------------------------------- Doctor -------------------------------------------------
+
+app.get("/GetDoctors", async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      "SELECT doc_id, doc_name, doc_specialty FROM `Doctor`"
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error("Get Doctors Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
 app.use((err, req, res, next) => {
     console.error(err);
 
@@ -293,6 +424,8 @@ app.use((err, req, res, next) => {
 
     res.status(status).json(messages[status] || messages[500]);
 });
+
+
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`))

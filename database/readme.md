@@ -1,20 +1,24 @@
 Status
+    
     Health - Working
     Register - Working
     Login - Working
-    Update User info from ID - Working
-    List User info from ID - Working
+    Update User info from User ID - Working
+    List User info from User ID - Working
 
     Insert Pet - Working
-    List Pet from ID - Working
+    List Pet from User ID - Working
     List Pet info from Pet ID - Working
     Update Pet info from ID - Working
 
-    List Medical Record from Pet ID - In progress
+    Insert Medical Record - Haven't Test
+    List Medical Record from Pet ID - Haven't Test
+    List Medical Record info from Record ID - Haven't Test
+
+    Insert Appointment - Haven't Test
+    List Appointment from User ID - Haven't Test
+
     List Doctor - In progress
-    Insert Appointment - In progress
-    List Appointment - In progress
-    Insert Medical Record - In progress
 
 # API Usage
 
