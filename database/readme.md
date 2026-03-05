@@ -4,10 +4,10 @@ Status
     Update User info from ID - Working
     List User info from ID - Working
 
-    Insert Pet - Testing
-    List Pet from ID - Testing
-    List Pet info from Pet ID - In progress
-    Update Pet info from ID - In progress
+    Insert Pet - Working
+    List Pet from ID - Working
+    List Pet info from Pet ID - Testing
+    Update Pet info from ID - Testing
 
     List Medical Record from Pet ID - In progress
     List Doctor - In progress

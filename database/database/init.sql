@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS User (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    full_name VARCHAR(255) NULL,
-    phone VARCHAR(20) NULL,
+    full_name VARCHAR(255),
+    phone VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     role VARCHAR(50) DEFAULT 'user'
 );
@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS Pets (
     breed VARCHAR(255),
     bloodtype VARCHAR(10),
     birth_date DATE,
+    weight DECIMAL(5,2),
+    allergy TEXT,
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
