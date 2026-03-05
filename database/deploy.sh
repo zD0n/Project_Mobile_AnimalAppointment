@@ -16,6 +16,4 @@ if [ "$LOCAL_HASH" != "$REMOTE_HASH" ]; then
     docker compose up --build -d
     
     echo "Deployment complete."
-else
-    echo "No new commits. Skipping."
 fi
