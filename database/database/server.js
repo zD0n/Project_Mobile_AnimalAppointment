@@ -301,7 +301,7 @@ app.post("/insertMedRecord/:pet_id", async (req, res) => {
   }
 });
 
-app.get("/GetMedicalRecord/:pet_id", async (req, res) => {
+app.get("/getMedicalRecord/:pet_id", async (req, res) => {
   try {
     const { pet_id } = req.params;
     const [rows] = await db.query(
@@ -318,7 +318,7 @@ app.get("/GetMedicalRecord/:pet_id", async (req, res) => {
   }
 });
 
-app.get("/GetMedicalRecordInfo/:record_id", async (req, res) => {
+app.get("/getMedicalRecordInfo/:record_id", async (req, res) => {
   try {
     const { record_id } = req.params;
     const [rows] = await db.query(
@@ -359,13 +359,14 @@ app.post("/insertAppointment/:pet_id/:user_id/:doc_id", async (req, res) => {
   }
 });
 
-app.get("/GetAppointmentslist/:user_id", async (req, res) => {
+app.get("/getUserAppointmentslist/:user_id", async (req, res) => {
   // กราบ Chat งามๆ
   try {
     const { user_id } = req.params;
 
     const [rows] = await db.query(
       `SELECT 
+        a.app_id,
         a.pet_id,
         p.pet_name,
         a.doc_id,
@@ -390,12 +391,63 @@ app.get("/GetAppointmentslist/:user_id", async (req, res) => {
   }
 });
 
+app.put("/deleteAppointment/:app_id", async (req, res) => {
+  try {
+    const { app_id } = req.params;
+    await db.query(
+      "DELETE FROM `Appointments` WHERE app_id = ?",
+      [app_id]
+    );
+    res.json({
+      error: false,
+      message: "Appointment deleted successfully"
+    });
+  } catch (err) {
+    console.error("Delete Appointment Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+app.get("/getDoctorAppointmentslist/:doc_id", async (req, res) => {
+  try {
+    const { doc_id } = req.params;
+    const [rows] = await db.query(
+      `SELECT 
+        a.pet_id,
+        p.pet_name,
+        a.user_id,
+        u.user_name,
+        a.app_date,
+        a.app_time,
+        a.reason
+      FROM Appointments a
+      JOIN Pets p ON a.pet_id = p.pet_id
+      JOIN Users u ON a.user_id = u.user_id
+      WHERE a.doc_id = ?`,
+      [doc_id]
+    );
+
+    res.json(rows);
+
+  } catch (err) {
+    console.error("Get Appointments Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+
 // ------------------------------------------------- Doctor -------------------------------------------------
 
-app.get("/GetDoctors", async (req, res) => {
+app.get("/getDoctors", async (req, res) => {
   try {
     const [rows] = await db.query(
-      "SELECT doc_id, doc_name, doc_specialty FROM `Doctor`"
+      "SELECT doc_id, doc_name, doc_specialty,is_available FROM `Doctor`"
     );
     res.json(rows);
   } catch (err) {
@@ -406,6 +458,7 @@ app.get("/GetDoctors", async (req, res) => {
     });
   }
 });
+
 
 app.use((err, req, res, next) => {
     console.error(err);

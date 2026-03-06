@@ -17,9 +17,12 @@ Status
 
     Insert Appointment - Haven't Test
     List Appointment from User ID - Haven't Test
+    List Appointment from Doc ID - Haven't Test
+    Delete Appointment from App ID
 
 
-    List Doctor - In progress
+    List Doctor - Haven't Test
+    Register for Docter - In progress
 
 # API Usage
 
