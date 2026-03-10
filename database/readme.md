@@ -22,7 +22,7 @@ Status
 
 
     List Doctor - Haven't Test
-    Register for Docter - In progress
+    Register for Docter - Trying but it keep failing
 
 # API Usage
 
@@ -149,5 +149,3 @@ Request Body
 
 POST /insertMedRecord/:pet_id
 
-Example
-/insertMedRecord/1
