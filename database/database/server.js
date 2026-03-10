@@ -31,7 +31,7 @@ const db = mysql.createPool({
 
 // ------------------------------------------------- Check -------------------------------------------------
 //get health status
-app.get("/health", async (req, res) => {
+app.get("/healths", async (req, res) => {
   res.status(200).json({ status: "Online" })
 })
 
