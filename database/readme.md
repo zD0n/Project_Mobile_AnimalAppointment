@@ -148,4 +148,3 @@ Request Body
 ## Insert Med Rec
 
 POST /insertMedRecord/:pet_id
-

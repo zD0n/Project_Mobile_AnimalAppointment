@@ -24,10 +24,13 @@ CREATE TABLE IF NOT EXISTS Pets (
 
 CREATE TABLE IF NOT EXISTS Doctor (
     doc_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
     doc_name VARCHAR(255) NOT NULL,
     specialization VARCHAR(255) NOT NULL,
     phone VARCHAR(20) NULL,
-    is_available BOOLEAN DEFAULT TRUE
+    is_available BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+
 );
 
 CREATE TABLE IF NOT EXISTS Appointments (

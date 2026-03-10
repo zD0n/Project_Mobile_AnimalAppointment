@@ -109,23 +109,41 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Register for Doctor
-app.put("/updatetodoctor/:user_id", async (req, res) => {
+app.put("/updateRole/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const { specialization } = req.body;
-
+    const { role } = req.body;
     await db.query(
-      "UPDATE `User` SET role = 'doctor', specialization = ? WHERE user_id = ?",
-      [specialization, user_id]
+      "UPDATE `User` SET role = ? WHERE user_id = ?",
+      [role, user_id]
     );
-
     res.json({
       error: false,
-      message: "User updated to doctor successfully"
+      message: "User role updated successfully"
     });
   } catch (err) {
-    console.error("Update User to Doctor Error:", err);
+    console.error("Update Role Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+app.post("/registerDoctor/:user_id", async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const { doc_name, specialization } = req.body;
+    await db.query(
+      "INSERT INTO `Doctor` (user_id, doc_name, specialization) VALUES (?, ?, ?)",
+      [user_id, doc_name, specialization]
+    );
+    res.status(201).json({
+      error: false,
+      message: "Doctor registered successfully!"
+    });
+  } catch (err) {
+    console.error("Register Doctor Error:", err);
     res.status(500).json({
       error: true,
       message: "Internal Server Error"
@@ -145,7 +163,7 @@ app.post("/login", async (req, res) => {
     }
 
     const [users] = await db.query(
-      "SELECT user_id, username, password WHERE username = ?",
+      "SELECT user_id, username, password, role FROM `User` WHERE username = ?",
       [username]
     );
 
@@ -308,8 +326,8 @@ app.post("/insertMedRecord/:pet_id", async (req, res) => {
     const { pet_id } = req.params;
     const { visit_date, diagnosis, treatment } = req.body;
     const [result] = await db.query(
-      "INSERT INTO `MedicalRecords` (pet_id,doc_id,app_id, treatment_date,treatment_time, diagnosis, treatment) VALUES (?, ?, ?, ?)",
-      [pet_id, visit_date, diagnosis, treatment]
+      "INSERT INTO `MedicalRecords` (pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [pet_id, null, null, diagnosis, treatment, visit_date, null]
     );
     res.status(201).json({
       error: false,
