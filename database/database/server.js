@@ -35,6 +35,10 @@ app.get("/health", async (req, res) => {
   res.status(200).json({ status: "Online" })
 })
 
+app.get("/health2", async (req, res) => {
+  res.status(200).json({ status: "Online" })
+})
+
 // Get all tables
 app.get("/tables", async (req, res) => {
   try {
