@@ -330,10 +330,10 @@ app.get("/infopet/:pet_id", async (req, res) => {
 app.put("/updatePet/:pet_id", async (req, res) => {
   try {
     const { pet_id } = req.params;
-    const { pet_name, species, pet_breed, bloodtype, birth_date, pet_gender, weight, allergy, pet_image_url } = req.body;
+    const { pet_name, species, breed, bloodtype, birth_date, gender, weight, allergy, pet_image_url } = req.body;
     await db.query(
-      "UPDATE `Pets` SET pet_name = ?, species = ?, pet_breed = ?, bloodtype = ?, birth_date = ?, pet_gender = ?, weight = ?, allergy = ?, image_url = ? WHERE pet_id = ?",
-      [pet_name, species, pet_breed, bloodtype, birth_date, pet_gender, weight, allergy, pet_image_url, pet_id]
+      "UPDATE `Pets` SET pet_name = ?, species = ?, breed = ?, bloodtype = ?, birth_date = ?, gender = ?, weight = ?, allergy = ?, image_url = ? WHERE pet_id = ?",
+      [pet_name, species, breed, bloodtype, birth_date, gender, weight, allergy, pet_image_url, pet_id]
     );
 
     res.json({
