@@ -45,6 +45,17 @@ Request Body
   "confirm_password": "123"
 }
 
+## Register Doctor
+
+POST /register/doctor
+
+Request Body
+{
+  "username": "DonnoButDoctor",
+  "password": "123",
+  "confirm_password": "123"
+}
+
 ---
 
 ## Login

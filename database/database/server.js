@@ -110,7 +110,7 @@ app.post("/register", async (req, res) => {
 });
 
 // Register for Doctor
-app.post("/register/doctor", async (req, res) => {
+app.post("/registerdoctor", async (req, res) => {
   try {
     const { username, password, confirm_password } = req.body;
 
