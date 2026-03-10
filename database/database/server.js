@@ -277,12 +277,12 @@ app.put("/updateUser/:user_id", async (req, res) => {
 
 app.post("/insertPet/:user_id", async (req, res) => {
   try {
-    const { pet_name, pet_type, pet_breed, pet_age, pet_gender, pet_image_url } = req.body;
+    const { pet_name, species, pet_breed, bloodtype, birth_date, pet_gender, weight, pet_image_url } = req.body;
     const { user_id } = req.params;
 
     await db.query(
-      "INSERT INTO `Pets` (pet_name, species, breed, gender, birth_date, user_id, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [pet_name, pet_type, pet_breed, pet_gender, pet_age, user_id, pet_image_url]
+      "INSERT INTO `Pets` (pet_name, species, pet_breed, bloodtype, birth_date, pet_gender, weight, user_id, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [pet_name, species, pet_breed, bloodtype, birth_date, pet_gender, weight, user_id, pet_image_url]
     );
 
     res.status(201).json({
