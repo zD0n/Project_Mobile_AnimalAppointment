@@ -349,6 +349,36 @@ app.put("/updatePet/:pet_id", async (req, res) => {
   }
 });
 
+app.delete("/deletePet/:pet_id", async (req, res) => {
+  try {
+    const { pet_id } = req.params;
+
+    const [result] = await db.query(
+      "DELETE FROM Pets WHERE pet_id = ?",
+      [pet_id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        error: true,
+        message: "Pet not found"
+      });
+    }
+
+    res.json({
+      error: false,
+      message: "Pet deleted successfully"
+    });
+
+  } catch (err) {
+    console.error("Delete Pet Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
 
 // ------------------------------------------------- MEDICAL RECORDS -------------------------------------------------
 
