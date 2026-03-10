@@ -112,7 +112,6 @@ app.post("/register", async (req, res) => {
 app.put("/updateRole/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const { role } = req.body;
     await db.query(
       "UPDATE `User` SET role = 'doctor' WHERE user_id = ?",
       [user_id]
