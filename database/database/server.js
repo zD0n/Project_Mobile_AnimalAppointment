@@ -163,10 +163,10 @@ app.put("/updateRole/:user_id", async (req, res) => {
 app.post("/registerDoctor/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const { specialization } = req.body;
+    const { specialization} = req.body;
     await db.query(
       "INSERT INTO `Doctor` (user_id, specialization,is_available) VALUES (?, ?, ?)",
-      [user_id, specialization, false]
+      [user_id, specialization, "available"]
     );
 
     res.status(201).json({
