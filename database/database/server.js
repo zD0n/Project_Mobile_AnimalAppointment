@@ -75,6 +75,21 @@ app.get("/rows/:table", async (req, res) => {
 
 // ------------------------------------------------ USER -------------------------------------------------
 
+// Debug test insert
+app.post("/debug-insert-doctor", async (req, res) => {
+  try {
+    const { user_id, specialization } = req.body;
+    const [result] = await db.query(
+      "INSERT INTO `Doctor` (user_id, specialization, is_available) VALUES (?, ?, ?)",
+      [user_id, specialization, "available"]
+    );
+    res.json({ error: false, result });
+  } catch (err) {
+    console.error("Debug Insert Error:", err);
+    res.status(500).json({ error: true, message: err.message, code: err.code });
+  }
+});
+
 // Register
 app.post("/register", async (req, res) => {
   try {
