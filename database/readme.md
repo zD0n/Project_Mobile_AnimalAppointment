@@ -133,3 +133,10 @@ Request Body
   "weight": "99",
   "allergy": "uhh"
 }
+
+## Insert Med Rec
+
+POST /insertMedRecord/:pet_id
+
+Example
+/insertMedRecord/1

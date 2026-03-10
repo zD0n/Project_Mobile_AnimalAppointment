@@ -109,6 +109,55 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// Register for Doctor
+app.post("/register/doctor", async (req, res) => {
+  try {
+    const { username, password, confirm_password } = req.body;
+
+    if (!username || !password || !confirm_password) {
+      return res.status(400).json({
+        error: true,
+        message: "Username and password are required"
+      });
+    }
+
+    if (password !== confirm_password) {
+      return res.status(400).json({
+        error: true,
+        message: "Passwords do not match"
+      });
+    }
+    const [existingUser] = await db.query(
+      "SELECT username FROM `User` WHERE username = ?",
+      [username]
+    );
+
+    if (existingUser.length > 0) {
+      return res.status(400).json({
+        error: true,
+        message: "This username is already taken"
+      });
+    }
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    await db.query(
+      "INSERT INTO `User` (username, password, full_name, phone, role) VALUES (?, ?, ?, ?, ?)",
+      [username, hashedPassword, "", "", "doctor"]
+    );
+
+    res.status(201).json({
+      error: false,
+      message: "Registration successful!"
+    });
+
+  } catch (err) {
+    console.error("Register Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
 app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -121,7 +170,7 @@ app.post("/login", async (req, res) => {
     }
 
     const [users] = await db.query(
-      "SELECT user_id, username, password, role FROM `User` WHERE username = ?",
+      "SELECT user_id, username, password WHERE username = ?",
       [username]
     );
 
@@ -284,16 +333,38 @@ app.post("/insertMedRecord/:pet_id", async (req, res) => {
     const { pet_id } = req.params;
     const { visit_date, diagnosis, treatment } = req.body;
     const [result] = await db.query(
-      "INSERT INTO `MedicalRecords` (pet_id, visit_date, diagnosis, treatment) VALUES (?, ?, ?, ?)",
+      "INSERT INTO `MedicalRecords` (pet_id,doc_id,app_id, treatment_date,treatment_time, diagnosis, treatment) VALUES (?, ?, ?, ?)",
       [pet_id, visit_date, diagnosis, treatment]
     );
-
     res.status(201).json({
       error: false,
       message: "Medical record added successfully!"
     });
   } catch (err) {
     console.error("Insert Medical Record Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+// เดี๋ยวค่อยมาแก้ไขนะครับ
+app.put("/updateMedRecord/:record_id", async (req, res) => {
+  try {
+    const { record_id } = req.params; 
+    const { visit_date, diagnosis, treatment } = req.body;
+    await db.query(
+      "UPDATE `MedicalRecords` SET visit_date = ?, diagnosis = ?, treatment = ? WHERE record_id = ?",
+      [visit_date, diagnosis, treatment, record_id]
+    );
+
+    res.json({
+      error: false,
+      message: "Medical record updated successfully"
+    });
+  } catch (err) {
+    console.error("Update Medical Record Error:", err);
     res.status(500).json({
       error: true,
       message: "Internal Server Error"
