@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS Pets (
     birth_date DATE,
     weight DECIMAL(5,2),
     allergy TEXT,
+    breed VARCHAR(255),
+    gender VARCHAR(10),
     image_url TEXT,
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
