@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS User (
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(255),
     phone VARCHAR(20),
+    image_url TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     role VARCHAR(50) DEFAULT 'user'
 );
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS Pets (
     birth_date DATE,
     weight DECIMAL(5,2),
     allergy TEXT,
+    image_url TEXT,
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
