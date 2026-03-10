@@ -110,47 +110,22 @@ app.post("/register", async (req, res) => {
 });
 
 // Register for Doctor
-app.post("/registerdoctor", async (req, res) => {
+app.post("/updatetodoctor:user_id", async (req, res) => {
   try {
-    const { username, password, confirm_password } = req.body;
+    const { user_id } = req.params;
+    const { specialization } = req.body;
 
-    if (!username || !password || !confirm_password) {
-      return res.status(400).json({
-        error: true,
-        message: "Username and password are required"
-      });
-    }
-
-    if (password !== confirm_password) {
-      return res.status(400).json({
-        error: true,
-        message: "Passwords do not match"
-      });
-    }
-    const [existingUser] = await db.query(
-      "SELECT username FROM `User` WHERE username = ?",
-      [username]
-    );
-
-    if (existingUser.length > 0) {
-      return res.status(400).json({
-        error: true,
-        message: "This username is already taken"
-      });
-    }
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
     await db.query(
-      "INSERT INTO `User` (username, password, full_name, phone, role) VALUES (?, ?, ?, ?, ?)",
-      [username, hashedPassword, "", "", "doctor"]
+      "UPDATE `User` SET role = 'doctor', specialization = ? WHERE user_id = ?",
+      [specialization, user_id]
     );
 
-    res.status(201).json({
+    res.json({
       error: false,
-      message: "Registration successful!"
+      message: "User updated to doctor successfully"
     });
-
   } catch (err) {
-    console.error("Register Error:", err);
+    console.error("Update User to Doctor Error:", err);
     res.status(500).json({
       error: true,
       message: "Internal Server Error"
