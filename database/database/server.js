@@ -290,9 +290,9 @@ app.post("/insertPet/:user_id", async (req, res) => {
       message: "Pet added successfully!"
     });
   } catch (err) {
-    console.error("Database Error:", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+  console.error("Database Error:", err);
+  res.status(500).json({ error: err.message });
+}
 });
 
 app.get("/getpets/:user_id", async (req, res) => {
