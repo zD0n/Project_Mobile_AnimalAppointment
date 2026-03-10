@@ -29,7 +29,7 @@ const db = mysql.createPool({
   charset: 'utf8mb4'
 })
 
-// ------------------------------------------------- Checking -------------------------------------------------
+// ------------------------------------------------- Check -------------------------------------------------
 //get health status
 app.get("/health", async (req, res) => {
   res.status(200).json({ status: "Online" })
