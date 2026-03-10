@@ -73,6 +73,20 @@ app.get("/rows/:table", async (req, res) => {
   }
 });
 
+app.post("/maunalInsert", async (req, res) => {
+  try {
+    const { sql } = req.body;
+    await db.query(sql);
+    res.status(201).json({
+      error: false,
+      message: "Query executed successfully!"
+    });
+  } catch (err) {
+    console.error("Database Error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // ------------------------------------------------ USER -------------------------------------------------
 
 // Register
@@ -152,6 +166,7 @@ app.post("/registerDoctor/:user_id", async (req, res) => {
       "INSERT INTO `Doctor` (user_id, doc_name, specialization, phone) VALUES (?, ?, ?, ?)",
       [user_id, doc_name, specialization,phone]
     );
+
     res.status(201).json({
       error: false,
       message: "Doctor registered successfully!"
