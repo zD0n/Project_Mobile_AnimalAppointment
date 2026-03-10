@@ -2,7 +2,7 @@
 
 cd ./
 
-git fetch origin Ignoreme
+git fetch origin Ignoreme > /dev/null 2>&1
 
 LOCAL_HASH=$(git rev-parse HEAD)
 REMOTE_HASH=$(git rev-parse origin/Ignoreme)

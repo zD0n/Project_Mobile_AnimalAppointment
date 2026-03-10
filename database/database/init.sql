@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Pets (
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
-CREATE TABLE IF NOT EXISTS Doctors (
+CREATE TABLE IF NOT EXISTS Doctor (
     doc_id INT AUTO_INCREMENT PRIMARY KEY,
     doc_name VARCHAR(255) NOT NULL,
     specialization VARCHAR(255) NOT NULL,
@@ -41,10 +41,10 @@ CREATE TABLE IF NOT EXISTS Appointments (
     app_time TIME,
     FOREIGN KEY (user_id) REFERENCES User(user_id),
     FOREIGN KEY (pet_id) REFERENCES Pets(pet_id),
-    FOREIGN KEY (doc_id) REFERENCES Doctors(doc_id)
+    FOREIGN KEY (doc_id) REFERENCES Doctor(doc_id)
 );
 
-CREATE TABLE IF NOT EXISTS Medical_records (
+CREATE TABLE IF NOT EXISTS MedicalRecords (
     record_id INT AUTO_INCREMENT PRIMARY KEY,
     pet_id INT,
     doc_id INT,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS Medical_records (
     treatment_date DATE,
     treatment_time TIME,
     FOREIGN KEY (pet_id) REFERENCES Pets(pet_id),
-    FOREIGN KEY (doc_id) REFERENCES Doctors(doc_id),
+    FOREIGN KEY (doc_id) REFERENCES Doctor(doc_id),
     FOREIGN KEY (app_id) REFERENCES Appointments(app_id)
 );
 
@@ -69,6 +69,6 @@ CREATE TABLE IF NOT EXISTS Fact_table (
     FOREIGN KEY (app_id) REFERENCES Appointments(app_id),
     FOREIGN KEY (user_id) REFERENCES User(user_id),
     FOREIGN KEY (pet_id) REFERENCES Pets(pet_id),
-    FOREIGN KEY (doc_id) REFERENCES Doctors(doc_id),
-    FOREIGN KEY (record_id) REFERENCES Medical_records(record_id)
+    FOREIGN KEY (doc_id) REFERENCES Doctor(doc_id),
+    FOREIGN KEY (record_id) REFERENCES MedicalRecords(record_id)
 );

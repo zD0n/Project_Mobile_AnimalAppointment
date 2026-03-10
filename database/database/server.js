@@ -419,13 +419,13 @@ app.get("/getDoctorAppointmentslist/:doc_id", async (req, res) => {
         a.pet_id,
         p.pet_name,
         a.user_id,
-        u.user_name,
+        u.username,
         a.app_date,
         a.app_time,
         a.reason
       FROM Appointments a
       JOIN Pets p ON a.pet_id = p.pet_id
-      JOIN Users u ON a.user_id = u.user_id
+      JOIN User u ON a.user_id = u.user_id
       WHERE a.doc_id = ?`,
       [doc_id]
     );
@@ -447,7 +447,7 @@ app.get("/getDoctorAppointmentslist/:doc_id", async (req, res) => {
 app.get("/getDoctors", async (req, res) => {
   try {
     const [rows] = await db.query(
-      "SELECT doc_id, doc_name, doc_specialty,is_available FROM `Doctor`"
+      "SELECT doc_id, doc_name, specialization,is_available FROM `Doctor`"
     );
     res.json(rows);
   } catch (err) {
