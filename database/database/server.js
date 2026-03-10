@@ -281,7 +281,7 @@ app.post("/insertPet/:user_id", async (req, res) => {
     const { user_id } = req.params;
 
        await db.query(
-      "INSERT INTO Pets (pet_name, species, breed, bloodtype, birth_date, gender, weight, user_id, allergy, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO Pets (pet_name, species, breed, bloodtype, birth_date, gender, weight, user_id, allergy, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [pet_name, species, pet_breed, bloodtype, birth_date, pet_gender, weight, user_id, allergy, pet_image_url]
     );
 
@@ -313,7 +313,7 @@ app.get("/infopet/:pet_id", async (req, res) => {
   try {
     const { pet_id } = req.params;
     const [rows] = await db.query(
-      "SELECT pet_id, pet_name, species,bloodtype, breed, gender, birth_date, weight, allergy, image_url FROM `Pets` WHERE pet_id = ?",
+      "SELECT pet_id, pet_name, species, bloodtype, breed, gender, birth_date, weight, allergy, image_url FROM `Pets` WHERE pet_id = ?",
       [pet_id]
     );
 
@@ -330,10 +330,10 @@ app.get("/infopet/:pet_id", async (req, res) => {
 app.put("/updatePet/:pet_id", async (req, res) => {
   try {
     const { pet_id } = req.params;
-    const { pet_name, species, bloodtype, birth_date, weight, allergy, pet_image_url } = req.body;
+    const { pet_name, species, pet_breed, bloodtype, birth_date, pet_gender, weight, allergy, pet_image_url } = req.body;
     await db.query(
-      "UPDATE `Pets` SET pet_name = ?, species = ?, bloodtype = ?, birth_date = ?, weight = ?, allergy = ?, image_url = ? WHERE pet_id = ?",
-      [pet_name, species, bloodtype, birth_date, weight, allergy, pet_image_url, pet_id]
+      "UPDATE `Pets` SET pet_name = ?, species = ?, pet_breed = ?, bloodtype = ?, birth_date = ?, pet_gender = ?, weight = ?, allergy = ?, image_url = ? WHERE pet_id = ?",
+      [pet_name, species, pet_breed, bloodtype, birth_date, pet_gender, weight, allergy, pet_image_url, pet_id]
     );
 
     res.json({
