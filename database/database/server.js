@@ -58,6 +58,18 @@ app.get("/users", async (req, res) => {
   }
 });
 
+// Get all rows
+app.get("/rows/:table", async (req, res) => {
+  try {
+    const { table } = req.params;
+    const [rows] = await db.query(`SELECT * FROM \`${table}\``);
+    res.json(rows);
+  } catch (err) {
+    console.error("Database Error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // ------------------------------------------------ USER -------------------------------------------------
 
 // Register
