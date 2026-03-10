@@ -299,7 +299,7 @@ app.get("/getpets/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
     const [rows] = await db.query(
-      "SELECT pet_name FROM `Pets` WHERE user_id = ?",
+      "SELECT pet_id, pet_name, image_url FROM `Pets` WHERE user_id = ?",
       [user_id]
     );
     res.json(rows);
