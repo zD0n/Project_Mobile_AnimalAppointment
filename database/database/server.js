@@ -73,21 +73,6 @@ app.get("/rows/:table", async (req, res) => {
   }
 });
 
-app.post("/maunalInsert", async (req, res) => {
-  try {
-    const { sql } = req.body;
-    await db.query(sql);
-    res.status(201).json({
-      error: false,
-      message: "Query executed successfully!",
-      returnedData: result
-    });
-  } catch (err) {
-    console.error("Database Error:", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 // ------------------------------------------------ USER -------------------------------------------------
 
 // Register
