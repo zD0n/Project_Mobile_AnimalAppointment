@@ -72,7 +72,21 @@ app.get("/rows/:table", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+// Get table columns
+app.get("/columns/:table", async (req, res) => {
+  try {
+    const { table } = req.params;
 
+    const [columns] = await db.query(`SHOW COLUMNS FROM \`${table}\``);
+
+    const columnNames = columns.map(col => col.Field);
+
+    res.json(columnNames);
+  } catch (err) {
+    console.error("Database Error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 // ------------------------------------------------ USER -------------------------------------------------
 
 // Debug test insert
