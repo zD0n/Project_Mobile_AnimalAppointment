@@ -79,7 +79,8 @@ app.post("/maunalInsert", async (req, res) => {
     await db.query(sql);
     res.status(201).json({
       error: false,
-      message: "Query executed successfully!"
+      message: "Query executed successfully!",
+      returnedData: result
     });
   } catch (err) {
     console.error("Database Error:", err);
