@@ -113,8 +113,8 @@ app.put("/updateRole/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
     await db.query(
-      "UPDATE `User` SET role = 'doctor' WHERE user_id = ?",
-      [user_id]
+      "UPDATE `User` SET role = ? WHERE user_id = ?",
+      ["doctor",user_id]
     );
     res.json({
       error: false,
@@ -217,7 +217,6 @@ app.get("/infoUser/:user_id", async (req, res) => {
     });
   }
 });
-
 
 app.put("/updateUser/:user_id", async (req, res) => {
   try {
