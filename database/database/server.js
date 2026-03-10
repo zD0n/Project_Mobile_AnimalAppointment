@@ -455,7 +455,7 @@ app.get("/getUserAppointmentslist/:user_id", async (req, res) => {
         a.app_time
       FROM Appointments a
       JOIN Pets p ON a.pet_id = p.pet_id
-      JOIN Doctors d ON a.doc_id = d.doc_id
+      JOIN Doctor d ON a.doc_id = d.doc_id
       WHERE a.user_id = ?`,
       [user_id]
     );
