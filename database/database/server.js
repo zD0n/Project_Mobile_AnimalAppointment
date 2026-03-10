@@ -110,7 +110,7 @@ app.post("/register", async (req, res) => {
 });
 
 // Register for Doctor
-app.put("/updatetodoctor:user_id", async (req, res) => {
+app.put("/updatetodoctor/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
     const { specialization } = req.body;
