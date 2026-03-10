@@ -147,10 +147,10 @@ app.put("/updateRole/:user_id", async (req, res) => {
 app.post("/registerDoctor/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const { doc_name, specialization } = req.body;
+    const { doc_name, specialization,phone } = req.body;
     await db.query(
-      "INSERT INTO `Doctor` (user_id, doc_name, specialization) VALUES (?, ?, ?)",
-      [user_id, doc_name, specialization]
+      "INSERT INTO `Doctor` (user_id, doc_name, specialization, phone) VALUES (?, ?, ?, ?)",
+      [user_id, doc_name, specialization,phone]
     );
     res.status(201).json({
       error: false,

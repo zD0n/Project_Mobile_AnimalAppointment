@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Doctor (
     doc_name VARCHAR(255),
     specialization VARCHAR(255),
     phone VARCHAR(20),
-    is_available BOOLEAN DEFAULT TRUE,
+    is_available BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 
 );
