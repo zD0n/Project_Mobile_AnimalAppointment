@@ -145,6 +145,25 @@ Request Body
   "allergy": "uhh"
 }
 
-## Insert Med Rec
+## Insert Appointment
 
-POST /insertMedRecord/:pet_id
+POST /insertAppointment/:pet_id/:user_id/:doc_id
+
+Example /insertAppointment/1/1/1
+{
+    "app_date":"2026-03-11",
+    "app_time":"10:35:00",
+    "reason":"ขาหัก"
+}
+
+## Delete Appointment
+
+PUT /deleteAppointment/:app_id
+
+Example /deleteAppointment/1
+
+##
+
+GET /getDoctorAppointmentslist/:doc_id
+
+Example /getDoctorAppointmentslist/1

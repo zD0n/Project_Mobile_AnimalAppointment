@@ -378,13 +378,13 @@ app.delete("/deletePet/:pet_id", async (req, res) => {
 
 // ------------------------------------------------- MEDICAL RECORDS -------------------------------------------------
 
-app.post("/insertMedRecord/:pet_id", async (req, res) => {
+app.post("/insertMedRecord/:pet_id/:doc_id/:app_id", async (req, res) => {
   try {
-    const { pet_id } = req.params;
-    const { visit_date, diagnosis, treatment } = req.body;
+    const { pet_id, doc_id, app_id } = req.params;
+    const { diagnosis, treatment_detail, treatment_date, treatment_time } = req.body;
     const [result] = await db.query(
       "INSERT INTO `MedicalRecords` (pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [pet_id, null, null, diagnosis, treatment, visit_date, null]
+      [pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time]
     );
     res.status(201).json({
       error: false,
@@ -480,6 +480,7 @@ app.post("/insertAppointment/:pet_id/:user_id/:doc_id", async (req, res) => {
   }
 });
 
+// Not finished yet, will update later
 app.get("/getUserAppointmentslist/:user_id", async (req, res) => {
   // กราบ Chat งามๆ
   try {
@@ -512,6 +513,7 @@ app.get("/getUserAppointmentslist/:user_id", async (req, res) => {
   }
 });
 
+
 app.put("/deleteAppointment/:app_id", async (req, res) => {
   try {
     const { app_id } = req.params;
@@ -531,6 +533,7 @@ app.put("/deleteAppointment/:app_id", async (req, res) => {
     });
   }
 });
+
 
 app.get("/getDoctorAppointmentslist/:doc_id", async (req, res) => {
   try {
@@ -568,7 +571,7 @@ app.get("/getDoctorAppointmentslist/:doc_id", async (req, res) => {
 app.get("/getDoctors", async (req, res) => {
   try {
     const [rows] = await db.query(
-      "SELECT doc_id, doc_name, specialization,is_available FROM `Doctor`"
+      "SELECT doc_id, specialization,is_available FROM `Doctor`"
     );
     res.json(rows);
   } catch (err) {
