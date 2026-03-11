@@ -73,22 +73,18 @@ app.get("/rows/:table", async (req, res) => {
   }
 });
 
-// ------------------------------------------------ USER -------------------------------------------------
-
-// Debug test insert
-app.post("/debug-insert-doctor", async (req, res) => {
+app.get("/columns/:table", async (req, res) => {
   try {
-    const { user_id, specialization } = req.body;
-    const [result] = await db.query(
-      "INSERT INTO `Doctor` (user_id, specialization, is_available) VALUES (?, ?, ?)",
-      [user_id, specialization, "available"]
-    );
-    res.json({ error: false, result });
+    const { table } = req.params;
+    const [rows] = await db.query(`SHOW COLUMNS FROM \`${table}\``);
+    res.json(rows);
   } catch (err) {
-    console.error("Debug Insert Error:", err);
-    res.status(500).json({ error: true, message: err.message, code: err.code });
+    console.error("Database Error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// ------------------------------------------------ USER -------------------------------------------------
 
 // Register
 app.post("/register", async (req, res) => {
