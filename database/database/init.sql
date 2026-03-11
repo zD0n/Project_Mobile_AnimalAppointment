@@ -76,3 +76,14 @@ CREATE TABLE IF NOT EXISTS Fact_table (
     FOREIGN KEY (doc_id) REFERENCES Doctor(doc_id),
     FOREIGN KEY (record_id) REFERENCES MedicalRecords(record_id)
 );
+
+INSERT INTO User (username, password, full_name, phone, image_url, role) VALUES
+('Donno', '123', 'TC', '1234567890', '', 'user'),
+('Donno2', '123', 'Dr.TC', '0987654321', '', 'doctor');
+
+INSERT INTO Pets (user_id, pet_name, species, bloodtype, birth_date, weight, allergy, breed, gender, image_url) VALUES
+(1, 'Buddy', 'Dog', 'A', '2018-05-20', 12.5, 'None', 'Labrador', 'Male', ''),
+(1, 'Mittens', 'Cat', 'B', '2019-08-15', 4.3, 'Fish', 'Siamese', 'Female', '');
+
+INSERT INTO Doctor (user_id, specialization, is_available) VALUES
+(2, 'Veterinarian', 'Yes');
