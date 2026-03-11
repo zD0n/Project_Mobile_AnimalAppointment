@@ -347,10 +347,10 @@ app.delete("/deletePet/:pet_id", async (req, res) => {
 app.post("/insertMedRecord/:pet_id/:doc_id/:app_id", async (req, res) => {
   try {
     const { pet_id, doc_id, app_id } = req.params;
-    const { diagnosis, treatment_detail, treatment_date, treatment_time } = req.body;
+    const { diagnosis, cost, treatment_detail, treatment_date, treatment_time } = req.body;
     const [result] = await db.query(
-      "INSERT INTO `MedicalRecords` (pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time]
+      "INSERT INTO `MedicalRecords` (pet_id, doc_id, app_id, diagnosis, cost, treatment_detail, treatment_date, treatment_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [pet_id, doc_id, app_id, diagnosis, cost, treatment_detail, treatment_date, treatment_time]
     );
     res.status(201).json({
       error: false,
