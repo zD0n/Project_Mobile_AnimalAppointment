@@ -438,8 +438,6 @@ app.get("/getMedicalRecordsByDoctor/:doc_id", async (req, res) => {
   }
 });
 
-
-
 // ------------------------------------------------- Appointments -------------------------------------------------
 
 app.post("/insertAppointment/:pet_id/:user_id/:doc_id", async (req, res) => {
