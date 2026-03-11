@@ -188,9 +188,20 @@ app.get("/infoUser/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
     const [rows] = await db.query(
-      "SELECT user_id, username, full_name, nickname, phone FROM `User` WHERE user_id = ?",
+      "SELECT user_id, username, full_name, nickname, phone, role FROM `User` WHERE user_id = ?",
       [user_id]
     );
+  
+    if (rows[0].role === "doctor") {
+      const [doctorInfo] = await db.query(
+        "SELECT doc_id, specialization, work_time, is_available FROM `Doctor` WHERE user_id = ?",
+        [user_id]);
+
+      rows[0].doc_id = doctorInfo[0].doc_id;
+      rows[0].specialization = doctorInfo[0].specialization;
+      rows[0].work_time = doctorInfo[0].work_time;
+      rows[0].is_available = doctorInfo[0].is_available;
+    }
 
     res.json(rows[0]);
   } catch (err) {

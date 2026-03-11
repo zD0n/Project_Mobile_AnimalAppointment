@@ -51,9 +51,8 @@ POST /register/doctor
 
 Request Body
 {
-  "username": "DonnoButDoctor",
-  "password": "123",
-  "confirm_password": "123"
+    "specialization":"toe",
+    "work_time":"24/6"
 }
 
 ---
@@ -103,9 +102,15 @@ Example
 
 Request Body
 {
-  "pet_name": "Pp",
-  "pet_type": "??",
-  "pet_age": "1000-08-21"
+    "pet_name":"Pn",
+    "species":"Dog",
+    "pet_breed":"uh",
+    "bloodtype":"R",
+    "birth_date":"2020/01/01",
+    "pet_gender":"F",
+    "weight":1,
+    "allergy":"Food",
+    "pet_image_url":""
 }
 
 ---
