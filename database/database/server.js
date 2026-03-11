@@ -381,10 +381,10 @@ app.delete("/deletePet/:pet_id", async (req, res) => {
 app.post("/insertMedRecord/:pet_id/:doc_id/:app_id", async (req, res) => {
   try {
     const { pet_id, doc_id, app_id } = req.params;
-    const { diagnosis, treatment_detail, treatment_date, treatment_time,cost } = req.body;
+    const { diagnosis, treatment_detail, treatment_date, treatment_time } = req.body;
     const [result] = await db.query(
-      "INSERT INTO `MedicalRecords` (pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time, cost) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-      [pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time, cost]
+      "INSERT INTO `MedicalRecords` (pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time]
     );
     res.status(201).json({
       error: false,
@@ -403,10 +403,10 @@ app.post("/insertMedRecord/:pet_id/:doc_id/:app_id", async (req, res) => {
 app.put("/updateMedRecord/:record_id", async (req, res) => {
   try {
     const { record_id } = req.params; 
-    const { visit_date, diagnosis, treatment } = req.body;
+    const { visit_date, diagnosis, treatment_detail , cost, treatment_date, treatment_time } = req.body;
     await db.query(
-      "UPDATE `MedicalRecords` SET visit_date = ?, diagnosis = ?, treatment = ? WHERE record_id = ?",
-      [visit_date, diagnosis, treatment, record_id]
+      "UPDATE `MedicalRecords` SET visit_date = ?, diagnosis = ?, treatment_detail = ?, cost = ?, treatment_date = ?, treatment_time = ? WHERE record_id = ?",
+      [visit_date, diagnosis, treatment_detail, cost, treatment_date, treatment_time, record_id]
     );
 
     res.json({
@@ -443,7 +443,7 @@ app.get("/getMedicalRecordInfo/:record_id", async (req, res) => {
   try {
     const { record_id } = req.params;
     const [rows] = await db.query(
-      "SELECT record_id, visit_date, diagnosis, treatment FROM `MedicalRecords` WHERE record_id = ?",
+      "SELECT record_id, visit_date, diagnosis, treatment_detail, cost, treatment_date, treatment_time FROM `MedicalRecords` WHERE record_id = ?",
       [record_id]
     );
     res.json(rows[0]);

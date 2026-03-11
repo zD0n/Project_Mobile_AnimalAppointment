@@ -150,6 +150,7 @@ Request Body
 POST /insertAppointment/:pet_id/:user_id/:doc_id
 
 Example /insertAppointment/1/1/1
+Request Body
 {
     "app_date":"2026-03-11",
     "app_time":"10:35:00",
@@ -162,8 +163,21 @@ PUT /deleteAppointment/:app_id
 
 Example /deleteAppointment/1
 
-##
+## Get Appointment List for Doctor
 
 GET /getDoctorAppointmentslist/:doc_id
 
 Example /getDoctorAppointmentslist/1
+
+## Insert Medical Record
+
+POST /insertMedRecord/:pet_id/:doc_id/:app_id
+
+Example /insertMedRecord/1/1/1
+Request Body
+{
+    "diagnosis":"ขาหัก",
+    "treatment_detail":"เอาพาราไปกิน เด๊๋ยวก็หาย",
+    "treatment_date":"2026-03-11",
+    "treatment_time":"10:35:00"
+}

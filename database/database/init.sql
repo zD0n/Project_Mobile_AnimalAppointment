@@ -87,3 +87,11 @@ INSERT INTO Pets (user_id, pet_name, species, bloodtype, birth_date, weight, all
 
 INSERT INTO Doctor (user_id, specialization, is_available) VALUES
 (2, 'Veterinarian', 'Yes');
+
+INSERT INTO Appointments (user_id, pet_id, doc_id, reason, status, app_date, app_time) VALUES
+(1, 1, 1, 'Regular Checkup', 'Scheduled', '2024-07-01', '10:00:00'),
+(1, 2, 1, 'Vaccination', 'Scheduled', '2024-07-02', '14:00:00');
+
+INSERT INTO MedicalRecords (pet_id, doc_id, app_id, diagnosis, treatment_detail, treatment_date, treatment_time) VALUES
+(1, 1, 1, 'Healthy', 'Regular checkup with no issues found.', '2024-07-01', '10:30:00'),
+(2, 1, 2, 'Needs Vaccination', 'Administered rabies vaccine.', '2024-07-02', '14:30:00');
