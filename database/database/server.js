@@ -410,6 +410,25 @@ app.get("/getMedicalRecordInfo/:record_id", async (req, res) => {
   }
 });
 
+app.get("/getMedicalRecordsByDoctor/:doc_id", async (req, res) => {
+  try {
+    const { doc_id } = req.params;
+    const [rows] = await db.query(
+      "SELECT record_id, pet_id, diagnosis, treatment_detail, cost, treatment_date, treatment_time FROM `MedicalRecords` WHERE doc_id = ?",
+      [doc_id]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error("Get Medical Records by Doctor Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+
+
 // ------------------------------------------------- Appointments -------------------------------------------------
 
 app.post("/insertAppointment/:pet_id/:user_id/:doc_id", async (req, res) => {
