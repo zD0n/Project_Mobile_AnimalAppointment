@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS Doctor (
     doc_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     specialization VARCHAR(255),
+    work_time TEXT,
     is_available TEXT,
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
