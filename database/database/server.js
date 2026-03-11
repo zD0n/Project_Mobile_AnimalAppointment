@@ -113,8 +113,8 @@ app.post("/register", async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     await db.query(
-      "INSERT INTO `User` (username, password, full_name, phone) VALUES (?, ?, ?, ?)",
-      [username, hashedPassword, "", ""]
+      "INSERT INTO `User` (username, password, full_name, nickname, phone) VALUES (?, ?, ?, ?, ?)",
+      [username, hashedPassword, "", "", ""]
     );
 
     res.status(201).json({
@@ -229,7 +229,7 @@ app.get("/infoUser/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
     const [rows] = await db.query(
-      "SELECT user_id, username, full_name, phone FROM `User` WHERE user_id = ?",
+      "SELECT user_id, username, full_name, nickname, phone FROM `User` WHERE user_id = ?",
       [user_id]
     );
 
