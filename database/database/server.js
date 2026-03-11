@@ -69,6 +69,8 @@ app.get("/rows/:table", async (req, res) => {
   }
 });
 
+
+// Get all columns
 app.get("/columns/:table", async (req, res) => {
   try {
     const { table } = req.params;
@@ -124,91 +126,6 @@ app.post("/register", async (req, res) => {
 
   } catch (err) {
     console.error("Register Error:", err);
-    res.status(500).json({
-      error: true,
-      message: "Internal Server Error"
-    });
-  }
-});
-
-app.put("/updateRole/:user_id", async (req, res) => {
-  try {
-    const { user_id } = req.params;
-    await db.query(
-      "UPDATE `User` SET role = ? WHERE user_id = ?",
-      ["doctor",user_id]
-    );
-    res.json({
-      error: false,
-      message: "User role updated successfully"
-    });
-  } catch (err) {
-    console.error("Update Role Error:", err);
-    res.status(500).json({
-      error: true,
-      message: "Internal Server Error"
-    });
-  }
-});
-
-
-app.post("/registerDoctor/:user_id", async (req, res) => {
-  try {
-    const { user_id } = req.params;
-    const { specialization, work_time } = req.body;
-    await db.query(
-      "INSERT INTO `Doctor` (user_id, specialization, work_time, is_available) VALUES (?, ?, ?, ?)",
-      [user_id, specialization, work_time, "available"]
-    );
-
-    res.status(201).json({
-      error: false,
-      message: "Doctor registered successfully!"
-    });
-  } catch (err) {
-    console.error("Register Doctor Error:", err);
-    res.status(500).json({
-      error: true,
-      message: "Internal Server Error"
-    });
-  }
-});
-
-app.put("/updateDoctorinfo/:doc_id", async (req, res) => {
-  try {
-    const { doc_id } = req.params;
-    const { specialization,work_time } = req.body;
-    await db.query(
-      "UPDATE `Doctor` SET specialization = ?, work_time = ? WHERE doc_id = ?",
-      [specialization, work_time, doc_id]
-    );
-    res.json({
-      error: false,
-      message: "Doctor updated successfully"
-    });
-  } catch (err) {
-    console.error("Update Doctor Error:", err);
-    res.status(500).json({
-      error: true,
-      message: "Internal Server Error"
-    });
-  }
-});
-
-app.put("/updateAvailableDoctor/:doc_id", async (req, res) => {
-  try {
-    const { doc_id } = req.params;
-    const { is_available } = req.body;
-    await db.query(
-      "UPDATE `Doctor` SET is_available = ? WHERE doc_id = ?",
-      [is_available, doc_id]
-    );
-    res.json({
-      error: false,
-      message: "Doctor updated successfully"
-    });
-  } catch (err) {
-    console.error("Update Doctor Error:", err);
     res.status(500).json({
       error: true,
       message: "Internal Server Error"
@@ -603,6 +520,27 @@ app.get("/getDoctorAppointmentslist/:doc_id", async (req, res) => {
   }
 });
 
+app.put("/updateAppointmentStatus/:app_id", async (req, res) => {
+  try {
+    const { app_id } = req.params;
+    const { status } = req.body;
+    await db.query(
+      "UPDATE `Appointments` SET status = ? WHERE app_id = ?",
+      [status, app_id]
+    );
+    res.json({
+      error: false,
+      message: "Appointment status updated successfully"
+    });
+  } catch (err) {
+    console.error("Update Appointment Status Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
 
 // ------------------------------------------------- Doctor -------------------------------------------------
 
@@ -621,6 +559,89 @@ app.get("/getDoctors", async (req, res) => {
   }
 });
 
+app.put("/updateRole/:user_id", async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    await db.query(
+      "UPDATE `User` SET role = ? WHERE user_id = ?",
+      ["doctor",user_id]
+    );
+    res.json({
+      error: false,
+      message: "User role updated successfully"
+    });
+  } catch (err) {
+    console.error("Update Role Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+app.post("/registerDoctor/:user_id", async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const { specialization, work_time } = req.body;
+    await db.query(
+      "INSERT INTO `Doctor` (user_id, specialization, work_time, is_available) VALUES (?, ?, ?, ?)",
+      [user_id, specialization, work_time, "available"]
+    );
+
+    res.status(201).json({
+      error: false,
+      message: "Doctor registered successfully!"
+    });
+  } catch (err) {
+    console.error("Register Doctor Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+app.put("/updateDoctorinfo/:doc_id", async (req, res) => {
+  try {
+    const { doc_id } = req.params;
+    const { specialization,work_time } = req.body;
+    await db.query(
+      "UPDATE `Doctor` SET specialization = ?, work_time = ? WHERE doc_id = ?",
+      [specialization, work_time, doc_id]
+    );
+    res.json({
+      error: false,
+      message: "Doctor updated successfully"
+    });
+  } catch (err) {
+    console.error("Update Doctor Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
+
+app.put("/updateAvailableDoctor/:doc_id", async (req, res) => {
+  try {
+    const { doc_id } = req.params;
+    const { is_available } = req.body;
+    await db.query(
+      "UPDATE `Doctor` SET is_available = ? WHERE doc_id = ?",
+      [is_available, doc_id]
+    );
+    res.json({
+      error: false,
+      message: "Doctor updated successfully"
+    });
+  } catch (err) {
+    console.error("Update Doctor Error:", err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error"
+    });
+  }
+});
 
 app.use((err, req, res, next) => {
     console.error(err);
