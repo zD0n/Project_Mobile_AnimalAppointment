@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS User (
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(255),
+    nickname VARCHAR(255),
     phone VARCHAR(20),
     image_url TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

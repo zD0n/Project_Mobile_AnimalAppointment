@@ -246,10 +246,10 @@ app.get("/infoUser/:user_id", async (req, res) => {
 app.put("/updateUser/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const { full_name, phone } = req.body;
+    const { full_name, phone,nickname } = req.body;
     await db.query(
-      "UPDATE `User` SET full_name = ?, phone = ? WHERE user_id = ?",
-      [full_name, phone, user_id]
+      "UPDATE `User` SET full_name = ?, phone = ?, nickname = ? WHERE user_id = ?",
+      [full_name, phone, nickname, user_id]
     );
 
     res.json({
@@ -567,7 +567,7 @@ app.get("/getDoctorAppointmentslist/:doc_id", async (req, res) => {
 app.get("/getDoctors", async (req, res) => {
   try {
     const [rows] = await db.query(
-      "SELECT doc_id, specialization,is_available FROM `Doctor`"
+      "SELECT d.doc_id, d.specialization, d.is_available, u.full_name, u.nickname FROM Doctor d JOIN User u ON d.user_id = u.user_id"
     );
     res.json(rows);
   } catch (err) {
