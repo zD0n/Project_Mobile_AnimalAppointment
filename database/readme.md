@@ -11,18 +11,18 @@ Status
     List Pet info from Pet ID - Working
     Update Pet info from ID - Working
 
-    Insert Medical Record - Haven't Test
-    List Medical Record from Pet ID - Haven't Test
-    List Medical Record info from Record ID - Haven't Test
+    Insert Medical Record - Working
+    List Medical Record from Pet ID - Working
+    List Medical Record info from Record ID - Working
 
-    Insert Appointment - Haven't Test
-    List Appointment from User ID - Haven't Test
-    List Appointment from Doc ID - Haven't Test
-    Delete Appointment from App ID
+    Insert Appointment - Working
+    List Appointment from User ID - Working
+    List Appointment from Doc ID - Working
+    Delete Appointment from App ID - Working
 
 
-    List Doctor - Haven't Test
-    Register for Docter - Trying but it keep failing
+    List Doctor - Working
+    Register for Docter - Working
 
 # API Usage
 
@@ -163,6 +163,12 @@ PUT /deleteAppointment/:app_id
 
 Example /deleteAppointment/1
 
+## Get Appointment List for User
+
+GET /getUserAppointmentslist/:user_id
+
+Example /getUserAppointmentslist/1
+
 ## Get Appointment List for Doctor
 
 GET /getDoctorAppointmentslist/:doc_id
@@ -181,3 +187,35 @@ Request Body
     "treatment_date":"2026-03-11",
     "treatment_time":"10:35:00"
 }
+
+## Update MedRecord
+
+PUT updateMedRecord/:record_id
+
+Example /updateMedRecord/1
+Request Body
+{
+    "diagnosis":"Uhh",
+    "treatment_detail":"Something",
+    "cost":0,
+    "treatment_date":"2024-07-01",
+    "treatment_time":"15:30:00"
+}
+
+## Get Medical Record from Pet ID
+
+GET /getMedicalRecord/:pet_id
+
+Example /getMedicalRecord/1
+
+## Get Medical Info Record
+
+GET /getMedicalRecordInfo/:record_id
+
+Example /getMedicalRecordInfo/1
+
+## Get Doctor List
+
+GET /getDoctors
+
+Example /getDoctors

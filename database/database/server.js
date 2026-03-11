@@ -399,14 +399,13 @@ app.post("/insertMedRecord/:pet_id/:doc_id/:app_id", async (req, res) => {
   }
 });
 
-// เดี๋ยวค่อยมาแก้ไขนะครับ
 app.put("/updateMedRecord/:record_id", async (req, res) => {
   try {
     const { record_id } = req.params; 
-    const { visit_date, diagnosis, treatment_detail , cost, treatment_date, treatment_time } = req.body;
+    const { diagnosis, treatment_detail , cost, treatment_date, treatment_time } = req.body;
     await db.query(
-      "UPDATE `MedicalRecords` SET visit_date = ?, diagnosis = ?, treatment_detail = ?, cost = ?, treatment_date = ?, treatment_time = ? WHERE record_id = ?",
-      [visit_date, diagnosis, treatment_detail, cost, treatment_date, treatment_time, record_id]
+      "UPDATE `MedicalRecords` SET diagnosis = ?, treatment_detail = ?, cost = ?, treatment_date = ?, treatment_time = ? WHERE record_id = ?",
+      [diagnosis, treatment_detail, cost, treatment_date, treatment_time, record_id]
     );
 
     res.json({
@@ -443,7 +442,7 @@ app.get("/getMedicalRecordInfo/:record_id", async (req, res) => {
   try {
     const { record_id } = req.params;
     const [rows] = await db.query(
-      "SELECT record_id, visit_date, diagnosis, treatment_detail, cost, treatment_date, treatment_time FROM `MedicalRecords` WHERE record_id = ?",
+      "SELECT record_id, diagnosis, treatment_detail, cost, treatment_date, treatment_time FROM `MedicalRecords` WHERE record_id = ?",
       [record_id]
     );
     res.json(rows[0]);
@@ -480,9 +479,7 @@ app.post("/insertAppointment/:pet_id/:user_id/:doc_id", async (req, res) => {
   }
 });
 
-// Not finished yet, will update later
 app.get("/getUserAppointmentslist/:user_id", async (req, res) => {
-  // กราบ Chat งามๆ
   try {
     const { user_id } = req.params;
 
@@ -492,12 +489,15 @@ app.get("/getUserAppointmentslist/:user_id", async (req, res) => {
         a.pet_id,
         p.pet_name,
         a.doc_id,
-        d.doc_name,
+        u.full_name,
         a.app_date,
-        a.app_time
+        a.app_time,
+        a.reason,
+        a.status
       FROM Appointments a
       JOIN Pets p ON a.pet_id = p.pet_id
       JOIN Doctor d ON a.doc_id = d.doc_id
+      JOIN User u ON d.user_id = u.user_id
       WHERE a.user_id = ?`,
       [user_id]
     );
