@@ -525,6 +525,8 @@ app.get("/getDoctorAppointmentslist/:doc_id", async (req, res) => {
     const { doc_id } = req.params;
     const [rows] = await db.query(
       `SELECT 
+        a.app_id,
+        a.status,
         a.pet_id,
         p.pet_name,
         a.user_id,
