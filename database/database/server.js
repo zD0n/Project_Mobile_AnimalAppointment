@@ -434,11 +434,41 @@ app.get("/getMedicalRecord/:pet_id", async (req, res) => {
   }
 });
 
+// app.get("/getMedicalRecordInfo/:record_id", async (req, res) => {
+//   try {
+//     const { record_id } = req.params;
+//     const [rows] = await db.query(
+//       "SELECT record_id, diagnosis, treatment_detail, cost, treatment_date, treatment_time FROM `MedicalRecords` WHERE record_id = ?",
+//       [record_id]
+//     );
+//     res.json(rows[0]);
+//   } catch (err) {
+//     console.error("Get Medical Record Info Error:", err);
+//     res.status(500).json({
+//       error: true,
+//       message: "Internal Server Error"
+//     });
+//   }
+// });
+
+
 app.get("/getMedicalRecordInfo/:record_id", async (req, res) => {
   try {
     const { record_id } = req.params;
     const [rows] = await db.query(
-      "SELECT record_id, diagnosis, treatment_detail, cost, treatment_date, treatment_time FROM `MedicalRecords` WHERE record_id = ?",
+      `SELECT 
+        m.record_id, 
+        m.diagnosis, 
+        m.treatment_detail, 
+        m.cost, 
+        m.treatment_date, 
+        m.treatment_time,
+        m.doc_id,
+        u.full_name AS doc_name
+      FROM MedicalRecords m
+      LEFT JOIN Doctor d ON m.doc_id = d.doc_id
+      LEFT JOIN User u ON d.user_id = u.user_id
+      WHERE m.record_id = ?`,
       [record_id]
     );
     res.json(rows[0]);
