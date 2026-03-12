@@ -1,28 +1,13 @@
-Status
-    
-    Health - Working
-    Register - Working
-    Login - Working
-    Update User info from User ID - Working
-    List User info from User ID - Working
+## How to Craete Doctor
 
-    Insert Pet - Working
-    List Pet from User ID - Working
-    List Pet info from Pet ID - Working
-    Update Pet info from ID - Working
+First Create User with 
+  /register 
+then update Role by 
+  /updateRole/:user_id 
+then end with 
+  /register/doctor
 
-    Insert Medical Record - Working
-    List Medical Record from Pet ID - Working
-    List Medical Record info from Record ID - Working
-
-    Insert Appointment - Working
-    List Appointment from User ID - Working
-    List Appointment from Doc ID - Working
-    Delete Appointment from App ID - Working
-
-
-    List Doctor - Working
-    Register for Docter - Working
+---
 
 # API Usage
 
@@ -31,6 +16,38 @@ Status
 GET /health
 
 Check if the API server is running.
+
+---
+
+## Get All tables
+
+GET /tables
+
+Return All Exist Tables
+
+---
+
+## Get All User
+
+GET /users
+
+Return All User in the Database
+
+---
+
+## Get All Rows
+
+GET /rows/:table
+
+Example /rows/User
+Return All Rows in the selected Table
+
+---
+
+## GET All Columns
+
+GET /columns/User
+Return All Columns in the selected Table
 
 ---
 
@@ -45,16 +62,6 @@ Request Body
   "confirm_password": "123"
 }
 
-## Register Doctor
-
-POST /register/doctor
-
-Request Body
-{
-  "username": "DonnoButDoctor",
-  "password": "123",
-  "confirm_password": "123"
-}
 
 ---
 
@@ -103,9 +110,15 @@ Example
 
 Request Body
 {
-  "pet_name": "Pp",
-  "pet_type": "??",
-  "pet_age": "1000-08-21"
+    "pet_name":"Pn",
+    "species":"Dog",
+    "pet_breed":"uh",
+    "bloodtype":"R",
+    "birth_date":"2020/01/01",
+    "pet_gender":"F",
+    "weight":1,
+    "allergy":"Food",
+    "pet_image_url":""
 }
 
 ---
@@ -145,6 +158,8 @@ Request Body
   "allergy": "uhh"
 }
 
+---
+
 ## Insert Appointment
 
 POST /insertAppointment/:pet_id/:user_id/:doc_id
@@ -157,23 +172,48 @@ Request Body
     "reason":"ขาหัก"
 }
 
-## Delete Appointment
+---
 
-PUT /deleteAppointment/:app_id
+## Get ALL pet from User ID
 
-Example /deleteAppointment/1
+GET /getpets/:user_id
 
-## Get Appointment List for User
+Example /getpets/1
 
-GET /getUserAppointmentslist/:user_id
+---
 
-Example /getUserAppointmentslist/1
+## Get pet Infomation
 
-## Get Appointment List for Doctor
+GET /infopet/:pet_id
 
-GET /getDoctorAppointmentslist/:doc_id
+Example /infopet/1
 
-Example /getDoctorAppointmentslist/1
+---
+
+## Update Pet infomation
+
+PUT /updatePet/:pet_id
+
+Example /updatePet/1
+Request Body
+{
+  "pet_name": "Pp",
+  "species": "??",
+  "bloodtype": "F",
+  "birth_date": "1000-08-21",
+  "weight": "99",
+  "allergy": "uhh"
+}
+
+---
+
+## Delete Pet
+
+DELETE /deletePet/:pet_id
+
+Example /deletePet/1
+
+---
 
 ## Insert Medical Record
 
@@ -183,24 +223,29 @@ Example /insertMedRecord/1/1/1
 Request Body
 {
     "diagnosis":"ขาหัก",
+    "cost":10,
     "treatment_detail":"เอาพาราไปกิน เด๊๋ยวก็หาย",
     "treatment_date":"2026-03-11",
     "treatment_time":"10:35:00"
 }
 
-## Update MedRecord
+---
 
-PUT updateMedRecord/:record_id
+## Update Medical Record
+
+PUT /updateMedRecord/:record_id
 
 Example /updateMedRecord/1
 Request Body
 {
-    "diagnosis":"Uhh",
-    "treatment_detail":"Something",
-    "cost":0,
-    "treatment_date":"2024-07-01",
-    "treatment_time":"15:30:00"
+    "diagnosis":"ขาหัก",
+    "cost":10,
+    "treatment_detail":"เอาพาราไปกิน เด๊๋ยวก็หาย",
+    "treatment_date":"2026-03-11",
+    "treatment_time":"10:35:00"
 }
+
+---
 
 ## Get Medical Record from Pet ID
 
@@ -208,14 +253,124 @@ GET /getMedicalRecord/:pet_id
 
 Example /getMedicalRecord/1
 
+---
+
 ## Get Medical Info Record
 
 GET /getMedicalRecordInfo/:record_id
 
 Example /getMedicalRecordInfo/1
 
+---
+
+## Get Medical Record from Doc ID
+
+GET /getMedicalRecordsByDoctor/:doc_id
+
+Example /getMedicalRecordsByDoctor/1
+
+---
+
+## Insert Appointment
+
+POST /insertAppointment/:pet_id/:user_id/:doc_id
+
+Example /insertAppointment/1/1/1
+Request Body
+{
+  "app_date":"2020/01/01",
+  "app_time":"10:35:00",
+  "reason":"why"
+}
+
+---
+
+## Get Appointment List for User
+
+GET /getUserAppointmentslist/:user_id
+
+Example /getUserAppointmentslist/1
+
+---
+
+## Delete Appointment
+
+PUT /deleteAppointment/:app_id
+
+Example /deleteAppointment/1
+
+---
+
+## Get Appointment List for Doctor
+
+GET /getDoctorAppointmentslist/:doc_id
+
+Example /getDoctorAppointmentslist/1
+
+---
+
+## Update Appointment Status
+
+PUT /updateAppointmentStatus/:app_id
+
+Example /updateAppointmentStatus/1
+Request Body
+{
+  "status":"Approval"
+}
+
+---
+
 ## Get Doctor List
 
 GET /getDoctors
 
 Example /getDoctors
+
+---
+
+## Change Role
+
+PUT /updateRole/:user_id
+
+Example /updateRole/1
+
+---
+
+## Register Doctor
+
+POST /registerdoctor/:user_id
+
+Example /registerdoctor/1
+Request Body
+{
+    "specialization":"toe",
+    "work_time":"24/6"
+}
+
+---
+
+## Update Doctor Info
+
+PUT /updateDoctorinfo/:doc_id
+
+Example /updateDoctorinfo/1
+Request Body
+{
+  "specialization":"Toe",
+  "work_time":"24/7"
+}
+
+---
+
+## UpdateAvailableDoctor
+
+PUT /updateAvailableDoctor/:doc_id
+
+Example /updateAvailableDoctor/1
+Request Body
+{
+  "is_available":"No"
+}
+
+---

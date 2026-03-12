@@ -12,7 +12,7 @@ if [ "$LOCAL_HASH" != "$REMOTE_HASH" ]; then
     
     git pull origin Ignoreme
     
-    docker compose down -v
+    docker compose down
     docker compose up --build -d
     
     echo "Deployment complete."
